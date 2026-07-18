@@ -42,6 +42,12 @@ describe('addTagToBook', async () => {
     expect(mockedRepoCreateBookTag).toHaveBeenCalledWith({ bookId: exampleBook.id, tagId: exampleTag.id });
     expect(result).toEqual(exampleTag);
   });
+
+  it('normalizes tag name to trimmed lowercase before creating', async () => {
+    mockedRepoGetOrCreateTag.mockResolvedValue(exampleTag);
+    await tagService.addTagToBook(exampleBook.id, '  Fiction  ');
+    expect(mockedRepoGetOrCreateTag).toHaveBeenCalledWith('fiction');
+  });
 });
 
 describe('removeTagFromBook', async () => {

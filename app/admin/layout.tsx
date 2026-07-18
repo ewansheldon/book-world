@@ -18,6 +18,8 @@ export default function AdminLayout({
           <Link href="/admin/books/create">New book</Link>
           <span>|</span>
           <Link href="/admin/books/without-description">Missing descriptions</Link>
+          <span>|</span>
+          <Link href="/admin/books/without-tags">Missing tags</Link>
         </div>
         <form action={async () => {
           "use server";

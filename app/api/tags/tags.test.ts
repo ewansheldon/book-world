@@ -9,7 +9,7 @@ import { DELETE as DELETE_BOOK_TAG } from '../books/[bookId]/tags/[tagId]/route'
 describe('GET /api/books/:bookId/tags', async () => {
   it('returns tags for a book', async () => {
     const book = await insertBook(exampleBookReq);
-    const tag = await insertTag('Fiction');
+    const tag = await insertTag('fiction');
     await insertBookTag(book, tag);
 
     const req = new NextRequest(`http://localhost/api/books/${book.id}/tags`);
@@ -33,7 +33,7 @@ describe('GET /api/books/:bookId/tags', async () => {
 });
 
 describe('POST /api/books/:bookId/tags', async () => {
-  it('adds a new tag to a book', async () => {
+  it('adds a new tag to a book, normalized to lowercase', async () => {
     const book = await insertBook(exampleBookReq);
 
     const formData = new FormData();
@@ -46,7 +46,7 @@ describe('POST /api/books/:bookId/tags', async () => {
     const postRes = await POST_BOOK_TAG(req, params);
     expect(postRes.status).toEqual(201);
     const tag = await postRes.json();
-    expect(tag.name).toEqual('Fiction');
+    expect(tag.name).toEqual('fiction');
     expect(tag.id).toBeDefined();
 
     const getRes = await GET_BOOK_TAGS(
@@ -59,7 +59,7 @@ describe('POST /api/books/:bookId/tags', async () => {
   it('reuses an existing tag when the name already exists', async () => {
     const book1 = await insertBook(exampleBookReq);
     const book2 = await insertBook(exampleBookReq2);
-    const existingTag = await insertTag('Fiction');
+    const existingTag = await insertTag('fiction');
     await insertBookTag(book1, existingTag);
 
     const formData = new FormData();
@@ -93,7 +93,7 @@ describe('POST /api/books/:bookId/tags', async () => {
 describe('DELETE /api/books/:bookId/tags/:tagId', async () => {
   it('removes a tag from a book', async () => {
     const book = await insertBook(exampleBookReq);
-    const tag = await insertTag('Fiction');
+    const tag = await insertTag('fiction');
     await insertBookTag(book, tag);
 
     const deleteReq = new NextRequest(`http://localhost/api/books/${book.id}/tags/${tag.id}`, {
@@ -115,8 +115,8 @@ describe('GET /api/tags', async () => {
   it('returns all tags ordered by book count descending', async () => {
     const book1 = await insertBook(exampleBookReq);
     const book2 = await insertBook(exampleBookReq2);
-    const popular = await insertTag('Fiction');
-    const lesserKnown = await insertTag('Travel');
+    const popular = await insertTag('fiction');
+    const lesserKnown = await insertTag('travel');
     await insertBookTag(book1, popular);
     await insertBookTag(book2, popular);
     await insertBookTag(book1, lesserKnown);

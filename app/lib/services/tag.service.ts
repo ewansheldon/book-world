@@ -6,7 +6,7 @@ export const getTagsByBookId = async (bookId: string): Promise<Tag[]> => {
 };
 
 export const addTagToBook = async (bookId: string, tagName: string): Promise<Tag> => {
-  const tag = await tagRepo.getOrCreateTag(tagName);
+  const tag = await tagRepo.getOrCreateTag(tagName.trim().toLowerCase());
   await tagRepo.createBookTag({ bookId, tagId: tag.id });
   return tag;
 };
