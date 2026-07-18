@@ -37,6 +37,10 @@ export const getBooksWithoutDescription = async (): Promise<Book[]> => {
   return await bookService.getBooksWithoutDescription();
 }
 
+export const getBooksWithoutTags = async (): Promise<Book[]> => {
+  return await bookService.getBooksWithoutTags();
+}
+
 export const queryBooks = async (query: string): Promise<Book[]> => {
   return await bookService.queryBooks(query);
 }

@@ -1,4 +1,4 @@
-import { Book, BookAPIRequest, BookRequest, Location, LocationRequest } from "../lib/types";
+import { Book, BookAPIRequest, BookRequest, Location, LocationRequest, Tag } from "../lib/types";
 
 export const exampleBookReq: BookRequest = {
   author: 'Jack Kerouac',
@@ -57,4 +57,9 @@ export const exampleStateReq: LocationRequest = {
 export const exampleState: Location = {
   id: "example-uuid-3",
   ... exampleStateReq
+}
+
+export const exampleTag: Tag = {
+  id: "example-uuid-4",
+  name: "fiction",
 }

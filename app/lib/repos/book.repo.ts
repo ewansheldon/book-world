@@ -122,6 +122,18 @@ export const getBooksWithoutDescription = async (): Promise<Book[]> => {
   return result.rows.map(toBook);
 }
 
+export const getBooksWithoutTags = async (): Promise<Book[]> => {
+  const result = await getDb().query(
+    `
+    SELECT id, title, author, description
+    FROM books
+    WHERE id NOT IN (SELECT DISTINCT book_id FROM book_tags)
+    ORDER BY title;
+    `
+  );
+  return result.rows.map(toBook);
+}
+
 export const queryBooks = async (query: string): Promise<Book[]> => {
   const result = await getDb().query(
     `

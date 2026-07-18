@@ -1,4 +1,4 @@
-import { Book, BookRequest, Location, LocationRequest } from "../lib/types";
+import { Book, BookRequest, Location, LocationRequest, Tag } from "../lib/types";
 import { getTestPool } from "./setup/testDB.setup";
 
 export const insertBook = async (bookReq: BookRequest): Promise<Book> => {
@@ -51,5 +51,21 @@ export const insertBookLocation = async (book: Book, location: Location) => {
       location.id
     ]
   );
-
 }
+
+export const insertTag = async (name: string): Promise<Tag> => {
+  const pool = getTestPool();
+  const result = await pool.query(
+    `INSERT INTO tags (name) VALUES ($1) RETURNING id`,
+    [name]
+  );
+  return { id: result.rows[0].id, name };
+};
+
+export const insertBookTag = async (book: Book, tag: Tag): Promise<void> => {
+  const pool = getTestPool();
+  await pool.query(
+    `INSERT INTO book_tags (book_id, tag_id) VALUES ($1, $2)`,
+    [book.id, tag.id]
+  );
+};

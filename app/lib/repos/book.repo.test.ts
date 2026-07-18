@@ -1,5 +1,5 @@
 import { exampleBookReq, exampleBookReq2, exampleCountryReq, exampleCountryReq2, exampleStateReq } from "@/app/__tests__/fixtures";
-import { insertBook, insertBookLocation, insertLocation } from "@/app/__tests__/helpers";
+import { insertBook, insertBookLocation, insertBookTag, insertLocation, insertTag } from "@/app/__tests__/helpers";
 import { describe, expect, it } from "vitest";
 import * as bookRepo from './book.repo';
 import { BookNotFoundError } from "../errors/book.errors";
@@ -103,5 +103,27 @@ describe('deleteBookLocation', async () => {
     await bookRepo.deleteBookLocation({ bookId: book.id, locationId: location.id });
 
     expect(await bookRepo.getBooksByLocationId(location.id)).toEqual([]);
+  });
+});
+
+describe('getBooksWithoutTags', async () => {
+  it('returns only books with no tags', async () => {
+    const tagged = await insertBook(exampleBookReq);
+    const untagged = await insertBook(exampleBookReq2);
+    const tag = await insertTag('Fiction');
+    await insertBookTag(tagged, tag);
+
+    const result = await bookRepo.getBooksWithoutTags();
+    expect(result).toContainEqual(untagged);
+    expect(result).not.toContainEqual(tagged);
+  });
+
+  it('returns all books when none have tags', async () => {
+    const book1 = await insertBook(exampleBookReq);
+    const book2 = await insertBook(exampleBookReq2);
+
+    const result = await bookRepo.getBooksWithoutTags();
+    expect(result).toContainEqual(book1);
+    expect(result).toContainEqual(book2);
   });
 });

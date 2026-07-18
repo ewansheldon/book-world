@@ -25,7 +25,7 @@ export const startTestDb = async () => {
     connectionString: process.env.DATABASE_URL,
   });
 
-  for (const file of ['001_create_tables.sql', '002_drop_cover_url.sql', '003_add_description_to_books.sql']) {
+  for (const file of ['001_create_tables.sql', '002_drop_cover_url.sql', '003_add_description_to_books.sql', '004_add_tags.sql']) {
     const migration = fs.readFileSync(
       path.resolve(__dirname, '../../../migrations', file),
       'utf-8'
@@ -55,6 +55,13 @@ export const clearDatabase = async () => {
   await pool.query(`
     TRUNCATE TABLE
       locations
+    RESTART IDENTITY
+    CASCADE
+  `);
+
+  await pool.query(`
+    TRUNCATE TABLE
+      tags
     RESTART IDENTITY
     CASCADE
   `);
