@@ -1,5 +1,6 @@
 import { getDb } from '@/app/lib/db';
 import { BookTag, Tag, TagWithCount } from '@/app/lib/types';
+import { TagNotFoundError } from '../errors/tag.errors';
 
 type TagDBRow = {
   id: string;
@@ -61,6 +62,15 @@ export const deleteBookTag = async (bookTag: BookTag): Promise<void> => {
     WHERE book_id = $1 AND tag_id = $2;
     `, [bookTag.bookId, bookTag.tagId]
   );
+};
+
+export const getTagById = async (tagId: string): Promise<Tag> => {
+  const result = await getDb().query(
+    `SELECT id, name FROM tags WHERE id = $1 LIMIT 1;`,
+    [tagId]
+  );
+  if (result.rows.length === 0) throw new TagNotFoundError();
+  return toTag(result.rows[0]);
 };
 
 export const getAllTagsWithBookCount = async (): Promise<TagWithCount[]> => {

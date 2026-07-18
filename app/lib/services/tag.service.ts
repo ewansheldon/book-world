@@ -15,6 +15,10 @@ export const removeTagFromBook = async (bookTag: BookTag): Promise<void> => {
   await tagRepo.deleteBookTag(bookTag);
 };
 
+export const getTagById = async (tagId: string): Promise<Tag> => {
+  return tagRepo.getTagById(tagId);
+};
+
 export const getAllTagsWithBookCount = async (): Promise<TagWithCount[]> => {
   return tagRepo.getAllTagsWithBookCount();
 };

@@ -122,6 +122,19 @@ export const getBooksWithoutDescription = async (): Promise<Book[]> => {
   return result.rows.map(toBook);
 }
 
+export const getBooksByTagId = async (tagId: string): Promise<Book[]> => {
+  const result = await getDb().query(
+    `
+    SELECT b.id, b.title, b.author, b.description
+    FROM books b
+    JOIN book_tags bt ON bt.book_id = b.id
+    WHERE bt.tag_id = $1
+    ORDER BY b.title;
+    `, [tagId]
+  );
+  return result.rows.map(toBook);
+};
+
 export const getBooksWithoutTags = async (): Promise<Book[]> => {
   const result = await getDb().query(
     `

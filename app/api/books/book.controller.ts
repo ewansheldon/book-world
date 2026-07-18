@@ -37,6 +37,10 @@ export const getBooksWithoutDescription = async (): Promise<Book[]> => {
   return await bookService.getBooksWithoutDescription();
 }
 
+export const getBooksByTagId = async (tagId: string): Promise<Book[]> => {
+  return await bookService.getBooksByTagId(tagId);
+}
+
 export const getBooksWithoutTags = async (): Promise<Book[]> => {
   return await bookService.getBooksWithoutTags();
 }

@@ -13,6 +13,10 @@ export const removeTagFromBook = async (bookTag: BookTag): Promise<void> => {
   await tagService.removeTagFromBook(bookTag);
 };
 
+export const getTagById = async (tagId: string): Promise<Tag> => {
+  return tagService.getTagById(tagId);
+};
+
 export const getAllTagsWithBookCount = async (): Promise<TagWithCount[]> => {
   return tagService.getAllTagsWithBookCount();
 };
