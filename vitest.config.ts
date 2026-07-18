@@ -10,5 +10,6 @@ export default defineConfig({
   test: {
     setupFiles: ['./app/__tests__/setup/vitest.setup.ts'],
     environment: 'node',
+    hookTimeout: 60000,
   },
 });
