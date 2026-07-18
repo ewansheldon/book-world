@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import BookSearch from "./components/BookSearch";
 import LocationLookup from "./components/LocationLookup";
 import { getAllTagsWithBookCount } from "@/app/api/tags/tag.controller";
